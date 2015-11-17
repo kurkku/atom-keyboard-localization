@@ -18,6 +18,18 @@ describe 'KeyboardLocalization', ->
     it 'should activate', ->
       expect(atom.packages.isPackageActive('keyboard-localization'))
 
+  describe 'when the package is deactivated', ->
+    it 'should free its resources', ->
+      atom.packages.deactivatePackage('keyboard-localization')
+      expect(pkg.keymapLoader).toBe null
+      expect(pkg.keyMapper).toBe null
+      expect(pkg.modifierStateHandler).toBe null
+      expect(pkg.keymapGeneratorView).toBe null
+
+    it 'can be deactivated twice', ->
+      atom.packages.deactivatePackage('keyboard-localization')
+      atom.packages.deactivatePackage('keyboard-localization')
+
   describe 'configuration', ->
     it 'should be able to load every keymap-locale successfully', ->
       pkg.config.useKeyboardLayout.enum.forEach (localeString) ->
